@@ -16,9 +16,9 @@ function setup() {
 	world = engine.world;
 	Engine.run(engine);
 	
-	dustbin1 = new Dustbin(1000, 710, 200, 20);
-	dustbin2 = new Dustbin(880, 660, 20, 100);
-	dustbin3 = new Dustbin(1110, 660, 20, 100);
+	dustbin1 = new Dustbin(1000, 780, 200, 20);
+	dustbin2 = new Dustbin(890, 743, 20, 100);
+	dustbin3 = new Dustbin(1090, 740, 20, 100);
 	
 	paper1 = new Paper(100, 50, 35);
 	ground = Bodies.rectangle(width/2,height, width, 20,
@@ -44,7 +44,7 @@ function draw() {
 if(gameState==="start") {
 	background(255, 255, 0);
 	textSize(20);
-	fill("red");
+	fill("black");
 	text("Click 'right_arrrow'to start the game!", width/2, 200);
 	if (keyCode === RIGHT_ARROW) {
 		gameState = "play";
@@ -53,6 +53,10 @@ if(gameState==="start") {
 if(gameState==="play") {
   rectMode(CENTER);
   background(0);
+
+  textSize(24)
+  fill("red");
+  text("'UP_arrow'to jump",500,400);
   
   dustbin1.display();
   dustbin2.display();
