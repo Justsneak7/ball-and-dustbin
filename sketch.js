@@ -1,68 +1,49 @@
 const Engine = Matter.Engine;
-const World = Matter.World;
+const World= Matter.World;
 const Bodies = Matter.Bodies;
-const Body = Matter.Body;
-const Render = Matter.Render;
 
-var ground, gameState,engine, world,dusbin,paper;
+var engine, world;
+var ground,ball;
+var binImg,bin;
+var binPart,binPart2,binPart3;
+var crumpledPaper;
 
-function setup() {
-	createCanvas(1200, 800);
-    
+function preload(){
+    binImg = loadImage("dustbingreen.png");
+}
+function setup(){
+    var canvas = createCanvas(1200,600);
+    engine = Engine.create();
+    world = engine.world;
 
-	gameState = "start";
-	
-	engine = Engine.create();
-	world = engine.world;
-	Engine.run(engine);
-	
-	dustbin1 = new Dustbin(1000, 780, 200, 20);
-	dustbin2 = new Dustbin(890, 743, 20, 100);
-	dustbin3 = new Dustbin(1090, 740, 20, 100);
-	
-	paper1 = new Paper(100, 50, 35);
-	ground = Bodies.rectangle(width/2,height, width, 20,
-		{
-			isStatic: true
-		})
+    ground = new Ground();
+    crumpledPaper = new Paper();
 
-	World.add(world, ground);
-	
+    bin = createSprite(964,520,20,20);
+    bin.addImage(binImg);
+    bin.scale = 0.45;
+
+    binPart1 = new Dustbin(902,505,10,120);
+    binPart2 = new Dustbin(962,565,130,10);
+    binPart3 = new Dustbin(1024,505,10,120);
 }
 
-function keyPressed() {
-	if(keyCode === UP_ARROW && gameState === "play") {
+function draw(){
+    background("white");
+    Engine.update(engine);
 
-	   Matter.Body.applyForce(paper1.body, paper1.body.position,{
-		   x:85,y:-85
-		})
        
-	}
+    ground.display();
+    crumpledPaper.display();
+    binPart1.display();
+    binPart2.display();
+    binPart3.display(); 
+      
+    drawSprites();
 }
 
-function draw() {
-if(gameState==="start") {
-	background(255, 255, 0);
-	textSize(20);
-	fill("black");
-	text("Click 'right_arrrow'to start the game!", width/2, 200);
-	if (keyCode === RIGHT_ARROW) {
-		gameState = "play";
-	}
-}
-if(gameState==="play") {
-  rectMode(CENTER);
-  background(0);
-
-  textSize(24)
-  fill("red");
-  text("'UP_arrow'to jump",500,400);
-  
-  dustbin1.display();
-  dustbin2.display();
-  dustbin3.display();
-  paper1.display();
-}
-  drawSprites();
- 
+function keyPressed(){
+    if(keyCode === UP_ARROW){
+        Matter.Body.applyForce(crumpledPaper.body,crumpledPaper.body.position,{x:74,y:-75});
+    }
 }
